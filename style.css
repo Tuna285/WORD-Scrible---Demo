@@ -6,13 +6,13 @@
 }
 
 body.friendly-theme {
-    /*background: linear-gradient(to bottom, #f2f2f2, #e6e6e6); /* Loại bỏ gradient */
     font-family: 'Patrick Hand', cursive;
     color: #444;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    position: relative; /* Needed for absolute positioning of bio */
 }
 
 /* Thêm lại background image và làm mờ */
@@ -60,7 +60,7 @@ h1 {
 
 /* Các ô chọn trò chơi */
 .game-tile {
-    background-color: #2ecc71; /* Màu xanh lá cây */
+    background-color: #0019fe; /* Màu xanh lá cây */
     border: none;
     border-radius: 50%;
     padding: 0;
@@ -78,37 +78,55 @@ h1 {
 
 .game-tile:hover {
     transform: scale(1.1);
-    background-color: #27ae60; /* Màu xanh đậm hơn khi hover */
+    background-color: #0080ff; /* Màu xanh đậm hơn khi hover */
 }
 .hidden {
     display: none;
 }
-
-#current-game {
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Viền trong suốt */
-    border-radius: 10px;
-     background-color: rgba(255, 255, 255, 0.7); /* Thêm nền trắng trong suốt */
-}
-#back-to-menu {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #2ecc71;
+/* Bio Section Styles */
+#bio-toggle {
+    position: absolute; /* Absolute positioning */
+    bottom: 10px;       /* From the top edge */
+    right: 10px;      /* From the left edge */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
     color: white;
-    border: none;
+    padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    z-index: 2;      /* Above the game content */
+    font-size: 1em;
+}
+#bio-toggle:hover{
+  background-color: rgba(0, 0, 0, 0.7);
+
 }
 
-#back-to-menu:hover {
-    background-color: #27ae60;
-}
-#word-scramble-game h2{
-  font-size: 1.5em;
-  color: black;
+#bio-content {
+    position: absolute;
+    bottom: 45px;       /* Below the toggle button */
+    right: 13px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    max-width: 250px; /* Limit width */
+    text-align: left; /* Left-align text */
 }
 
+#bio-content p {
+    margin-bottom: 5px; /* Spacing between paragraphs */
+    font-size: 0.9em;
+}
+
+#bio-content a {
+    color: #2980b9;
+    text-decoration: none; /* Remove underline */
+}
+
+#bio-content a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
 /* Responsive */
 @media (max-width: 768px) {
     #game-selection {

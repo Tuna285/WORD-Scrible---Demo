@@ -10,18 +10,27 @@
 
 </head>
 
-<body class="friendly-theme"> <!-- Thay class để dễ dàng thay đổi theme -->
+<body class="friendly-theme">
     <div id="game-container">
+        <div id="bio-toggle">About Me</div> <!-- Toggle button -->
+        <div id="bio-content" class="hidden">
+            <p>Created by <a href="https://github.com/Tuna285" target="_blank">HuynhTuan (群青マグロ)</a></p>
+            <!-- Add more bio info here if you want -->
+            <p>This is a collection of word games built with HTML, CSS, and JavaScript (Under Dev).</p>
+            <p>Click "About Me" again to close.</p>
+        </div>
+
         <h1>Word Games</h1>
         <div id="game-selection">
             <div class="game-tile" data-game="crossword">1</div>
             <div class="game-tile" data-game="picture-quiz">2</div>
             <div class="game-tile" data-game="word-scramble">3</div>
-            <div class="game-tile" data-game="picture-quiz">4</div>
-            <div class="game-tile" data-game="crossword">5</div>
-            <div class="game-tile" data-game="word-scramble">6</div>
+            <div class="game-tile" data-game="empty">4</div>
+            <div class="game-tile" data-game="empty">5</div>
+            <div class="game-tile" data-game="empty">6</div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

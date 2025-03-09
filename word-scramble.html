@@ -4,8 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Scramble</title>
-    <link rel="stylesheet" href="style.css"> <!-- Liên kết với file CSS chung (hoặc file CSS riêng) -->
-     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style> /* Thêm style cho hiệu ứng */
+    #scramble-result.correct {
+        animation: celebrate 0.5s ease; /* Thêm animation */
+    }
+
+    @keyframes celebrate {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); } /* Phóng to một chút */
+        100% { transform: scale(1); }
+    }
+    </style>
 </head>
 <body class="friendly-theme">
     <div id="game-container">
@@ -14,14 +25,20 @@
         <input type="text" id="scramble-answer">
         <button id="scramble-submit">Submit</button>
         <p id="scramble-result"></p>
+
+        <!-- Thêm phần tử audio -->
+        <audio id="correct-sound">
+            <source src="correct.mp3" type="audio/mpeg"> <!-- Thay đổi đường dẫn và loại file nếu cần -->
+            <source src="correct.ogg" type="audio/ogg">
+            Your browser does not support the audio element.
+        </audio>
     </div>
 
     <script>
-    // Dữ liệu (có thể mở rộng thêm)
     const wordScrambleData = [
         { word: "example", scrambled: "xepmela" },
-        { word: 'question', scrambled: 'oqeutsin'}
-        // Thêm các cặp từ khác ở đây
+        { word: "question", scrambled: "oqeutsin" }
+        // Add more word pairs here
     ];
 
     let currentScrambleIndex = 0;
@@ -29,11 +46,13 @@
     const scrambleAnswer = document.getElementById("scramble-answer");
     const scrambleSubmit = document.getElementById("scramble-submit");
     const scrambleResult = document.getElementById("scramble-result");
+    const correctSound = document.getElementById("correct-sound"); // Lấy phần tử audio
 
     function displayScrambledWord() {
       scrambleQuestion.textContent = wordScrambleData[currentScrambleIndex].scrambled;
       scrambleAnswer.value = "";
       scrambleResult.textContent = "";
+      scrambleResult.classList.remove("correct"); // Remove the class
     }
 
    function checkScrambleAnswer() {
@@ -41,8 +60,12 @@
         const correctAnswer = wordScrambleData[currentScrambleIndex].word;
 
         if (userAnswer === correctAnswer) {
+            // Chúc mừng
             scrambleResult.textContent = "Correct! Well done.";
             scrambleResult.style.color = "green";
+            scrambleResult.classList.add("correct"); // Thêm class để kích hoạt animation
+            correctSound.play(); // Phát âm thanh
+
               currentScrambleIndex++;
             if (currentScrambleIndex < wordScrambleData.length) {
 
@@ -56,6 +79,8 @@
         } else {
             scrambleResult.textContent = "Try again!";
             scrambleResult.style.color = "red";
+             scrambleResult.classList.remove("correct"); // Remove class
+
         }
     }
 

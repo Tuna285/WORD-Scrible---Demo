@@ -1,3 +1,11 @@
+const bioToggle = document.getElementById('bio-toggle');
+const bioContent = document.getElementById('bio-content');
+
+bioToggle.addEventListener('click', () => {
+  bioContent.classList.toggle('hidden');
+});
+
+//Keep code of menu game
 const gameTiles = document.querySelectorAll('.game-tile');
 
 gameTiles.forEach(tile => {
@@ -11,7 +19,7 @@ gameTiles.forEach(tile => {
                 url = 'crossword.html'; // Tạo file crossword.html
                 break;
             case 'picture-quiz':
-                url = 'picture-quiz.html'; // Tạo file picture-quiz.html 
+                url = 'picture-quiz.html'; // Tạo file picture-quiz.html
                 break;
             case 'word-scramble':
                 url = 'word-scramble.html'; // Tạo file word-scramble.html
