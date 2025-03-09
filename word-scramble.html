@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble</title>
+    <link rel="stylesheet" href="style.css"> <!-- Liên kết với file CSS chung (hoặc file CSS riêng) -->
+     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+</head>
+<body class="friendly-theme">
+    <div id="game-container">
+        <h1>Word Scramble</h1>
+        <h2 id="scramble-question"></h2>
+        <input type="text" id="scramble-answer">
+        <button id="scramble-submit">Submit</button>
+        <p id="scramble-result"></p>
+    </div>
+
+    <script>
+    // Dữ liệu (có thể mở rộng thêm)
+    const wordScrambleData = [
+        { word: "example", scrambled: "xepmela" },
+        { word: 'question', scrambled: 'oqeutsin'}
+        // Thêm các cặp từ khác ở đây
+    ];
+
+    let currentScrambleIndex = 0;
+    const scrambleQuestion = document.getElementById("scramble-question");
+    const scrambleAnswer = document.getElementById("scramble-answer");
+    const scrambleSubmit = document.getElementById("scramble-submit");
+    const scrambleResult = document.getElementById("scramble-result");
+
+    function displayScrambledWord() {
+      scrambleQuestion.textContent = wordScrambleData[currentScrambleIndex].scrambled;
+      scrambleAnswer.value = "";
+      scrambleResult.textContent = "";
+    }
+
+   function checkScrambleAnswer() {
+        const userAnswer = scrambleAnswer.value.trim().toLowerCase();
+        const correctAnswer = wordScrambleData[currentScrambleIndex].word;
+
+        if (userAnswer === correctAnswer) {
+            scrambleResult.textContent = "Correct! Well done.";
+            scrambleResult.style.color = "green";
+              currentScrambleIndex++;
+            if (currentScrambleIndex < wordScrambleData.length) {
+
+                setTimeout(displayScrambledWord, 1000); // Show next word after 1s.
+            } else {
+
+                scrambleResult.textContent += " You've completed all the words!";
+                scrambleSubmit.disabled = true;
+                scrambleAnswer.disabled = true;
+            }
+        } else {
+            scrambleResult.textContent = "Try again!";
+            scrambleResult.style.color = "red";
+        }
+    }
+
+    // Khởi động khi trang được tải
+    displayScrambledWord();
+
+    scrambleSubmit.addEventListener('click', checkScrambleAnswer);
+     scrambleAnswer.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            checkScrambleAnswer();
+        }
+    });
+    </script>
+</body>
+</html>

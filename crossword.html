@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossword</title>
+    <link rel="stylesheet" href="style.css">
+      <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+    /* CSS cho ô chữ (tùy chỉnh) */
+    #crossword-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 40px); /* Ví dụ: 5 cột */
+        grid-template-rows: repeat(5, 40px);    /* Ví dụ: 5 hàng */
+        gap: 2px;
+        margin-bottom: 20px;
+    }
+
+    .crossword-cell {
+        border: 1px solid #aaa;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        font-size: 1.2em;
+        background-color: white;
+    }
+      .crossword-cell.correct{
+        background-color: lightgreen;
+      }
+
+    .crossword-cell.incorrect {
+        background-color: #ffcccc; /* Màu hồng nhạt */
+    }
+    .crossword-cell[readonly] {
+        background-color: #ddd; /* Ô không được nhập */
+    }
+
+    #crossword-clues {
+        margin-bottom: 20px;
+    }
+    #crossword-result{
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    </style>
+</head>
+<body class="friendly-theme">
+    <div id="game-container">
+        <h1>Crossword</h1>
+        <div id="crossword-grid">
+            <!-- Ô chữ sẽ được tạo bằng JavaScript -->
+        </div>
+        <div id="crossword-clues">
+            <!-- Gợi ý sẽ được hiển thị ở đây -->
+            <p>1. A place where people live (5 letters): <input type = "text" data-row = "0" data-col = "0" maxlength = "5" class = "crossword-answer"></p>
+            <p>2. Opposite of black (5 letters): <input type = "text" data-row = "1" data-col = "0" maxlength = "5" class = "crossword-answer"></p>
+
+        </div>
+         <button id="crossword-submit">Check</button>
+        <p id="crossword-result"></p>
+    </div>
+
+    <script>
+      //Dữ liệu của crossword
+    const crosswordData = {
+      grid: [
+          ["H", "O", "U", "S", "E"],
+          ["W", "H", "I", "T", "E"],
+          ["", "", "", "", ""],
+          ["", "", "", "", ""],
+          ["", "", "", "", ""]
+      ],
+        clues: [
+          "1.  A place where people live (5 letters)",
+          "2. Opposite of black (5 letters)"
+        ],
+        answers: [
+            "HOUSE",
+            "WHITE"
+        ],
+        keyword: "HW" // Từ khóa dọc (ví dụ).
+    };
+    const crosswordGrid = document.getElementById("crossword-grid");
+    const crosswordClues = document.getElementById("crossword-clues");
+    const crosswordResult = document.getElementById("crossword-result");
+    const crosswordSubmit = document.getElementById("crossword-submit");
+    const crosswordAnswers = document.querySelectorAll(".crossword-answer");
+
+    // Tạo ô chữ
+   function createCrosswordGrid() {
+        for (let row = 0; row < crosswordData.grid.length; row++) {
+            for (let col = 0; col < crosswordData.grid[row].length; col++) {
+                const cell = document.createElement("input");
+                cell.type = "text";
+                cell.classList.add("crossword-cell");
+                cell.maxLength = 1;
+                //Thêm attribute để dễ theo dõi
+                cell.dataset.row = row;
+                cell.dataset.col = col;
+
+                if (crosswordData.grid[row][col] === "") {
+                    cell.readOnly = true; // Không cho nhập vào ô trống
+                }
+                crosswordGrid.appendChild(cell);
+            }
+        }
+    }
+
+    // Hiển thị gợi ý
+
+        //Điền đáp án từ input vào grid
+        crosswordAnswers.forEach(answerInput => {
+          answerInput.addEventListener('keyup', (event)=>{
+              const row = parseInt(answerInput.dataset.row);
+              const col = parseInt(answerInput.dataset.col);
+              const userAnswer = answerInput.value.trim().toUpperCase(); //Chuyển sang uppercase
+              //Điền vào grid
+              fillGrid(row, col, userAnswer);
+          })
+        })
+
+        function fillGrid(row, startCol, word) {
+          for(let i = 0; i< word.length; i++){
+            const cell = document.querySelector(`.crossword-cell[data-row="${row}"][data-col="${startCol + i}"]`);
+            if(cell && !cell.readOnly){
+              cell.value = word[i];
+            }
+          }
+        }
+
+      // Kiểm tra đáp án
+    function checkCrossword() {
+        let allCorrect = true;
+        const cells = document.querySelectorAll(".crossword-cell");
+
+        cells.forEach(cell => {
+            const row = parseInt(cell.dataset.row);
+            const col = parseInt(cell.dataset.col);
+            if (!cell.readOnly) {
+                const expected = crosswordData.grid[row][col];
+                const actual = cell.value.trim().toUpperCase();
+
+                if(actual !== expected){
+                  allCorrect = false;
+                  cell.classList.add("incorrect");
+                  cell.classList.remove("correct");
+                } else {
+                  cell.classList.remove("incorrect");
+                    cell.classList.add("correct");
+                }
+            }
+        });
+
+        if (allCorrect) {
+            crosswordResult.textContent = "Congratulations! You solved the crossword. Keyword: " + crosswordData.keyword;
+            crosswordResult.style.color = "green";
+              crosswordSubmit.disabled = true;
+
+        } else {
+            crosswordResult.textContent = "Some answers are incorrect. Keep trying!";
+            crosswordResult.style.color = "red";
+        }
+    }
+
+    // Khởi tạo
+    createCrosswordGrid();
+
+
+    crosswordSubmit.addEventListener('click', checkCrossword);
+
+    </script>
+</body>
+</html>

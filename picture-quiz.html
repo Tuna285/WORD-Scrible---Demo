@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Picture Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+      #picture-quiz-image{
+        max-width: 300px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+    </style>
+</head>
+<body class="friendly-theme">
+    <div id="game-container">
+        <h1>Picture Quiz</h1>
+        <img id="picture-quiz-image" src="" alt="Quiz Image">
+        <input type="text" id="picture-quiz-answer">
+        <button id="picture-quiz-submit">Submit</button>
+        <p id="picture-quiz-result"></p>
+    </div>
+
+    <script>
+    const pictureQuizData = [
+        { image: "https://i.imgur.com/KLv1rog.jpg", answer: "ocean" }, // Thay URL bằng ảnh thật
+        { image: "https://i.imgur.com/KLv1rog.jpg", answer: "beach"}
+        // Thêm các hình ảnh và đáp án khác
+    ];
+    let currentPictureIndex = 0;
+    const pictureQuizImage = document.getElementById("picture-quiz-image");
+    const pictureQuizAnswer = document.getElementById("picture-quiz-answer");
+    const pictureQuizSubmit = document.getElementById("picture-quiz-submit");
+    const pictureQuizResult = document.getElementById("picture-quiz-result");
+
+    function displayPicture() {
+        pictureQuizImage.src = pictureQuizData[currentPictureIndex].image;
+        pictureQuizAnswer.value = "";
+        pictureQuizResult.textContent = "";
+    }
+    function checkPictureAnswer() {
+        const userAnswer = pictureQuizAnswer.value.trim().toLowerCase();
+        const correctAnswer = pictureQuizData[currentPictureIndex].answer;
+
+        if (userAnswer === correctAnswer) {
+            pictureQuizResult.textContent = "Correct! You got it.";
+            pictureQuizResult.style.color = "green";
+            currentPictureIndex++;
+            if (currentPictureIndex < pictureQuizData.length) {
+                setTimeout(displayPicture, 1000); // Display next after 1s
+            }
+            else {
+              pictureQuizResult.textContent += " You finished all pictures!";
+              pictureQuizSubmit.disabled = true;
+              pictureQuizAnswer.disabled = true;
+            }
+        } else {
+            pictureQuizResult.textContent = "Try again!";
+            pictureQuizResult.style.color = "red";
+        }
+    }
+
+    displayPicture(); // Load the first picture
+
+    pictureQuizSubmit.addEventListener('click', checkPictureAnswer);
+    pictureQuizAnswer.addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+        checkPictureAnswer();
+    }
+});
+    </script>
+</body>
+</html>
