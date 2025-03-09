@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Dungeon</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts (Optional, if you want to use a different font) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap" rel="stylesheet">
+</head>
+
+<body class="blur-background">
+    <div id="game-container">
+        <div id="dungeon">
+            <h1>Dungeon 1</h1>
+            <img src="https://i.imgur.com/KLv1rog.jpg" alt="Dungeon Image" width="300">
+            <div class="question-container">
+                <p id="question">Fill in the blank: The cat is on the ____.</p>
+            </div>
+            <div class="input-container">
+                <input type="text" id="answer">
+                <button id="submit">Submit</button>
+            </div>
+            <p id="result"></p>
+        </div>
+        <div id="inventory">
+            <p>Score: <span id="score">0</span></p>
+            <!-- Add items here, if any -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
